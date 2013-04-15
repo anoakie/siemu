@@ -18,11 +18,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
 USA.
 
-        Contact:  Anoakie Turner
-                  Anoakie.Turner@asu.edu
-
-                  13240 N. 94th Pl.
-                  Scottsdale, AZ 85260
 
 Note:
 ----

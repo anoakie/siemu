@@ -15,12 +15,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
 USA.
-
-        Contact:  Anoakie Turner
-                  Anoakie.Turner@asu.edu
-
-                  13240 N. 94th Pl.
-                  Scottsdale, AZ 85260
 ---------------------------------------------
 
 
@@ -345,7 +339,8 @@ USA.
 	6.1  Files included with the project
 	    Files in the root directory:
 		. Root directory
-		 \__ ICON	- This is the icon for the window.
+		 \__ res  - Emulator resources
+      |  \__ si.ico	- This is the icon for the window.
 		  |_ Makefile	- This file aids in compilation of source.
 		  |_ si		- This is the default compiled binary. (may not
 		  |		  exist with the current distribution)

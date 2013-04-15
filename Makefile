@@ -161,7 +161,7 @@ release:
 dist:
 	mkdir dist
 	mkdir dist/siemu-$(VERSION_MAJOR).$(VERSION_MINOR)
-	cp -Rp bin si* samp doc ICON Makefile src patch \
+	cp -Rp bin si* samp doc res/si.ico Makefile src patch \
 		  dist/siemu-$(VERSION_MAJOR).$(VERSION_MINOR)
 	mkdir dist/siemu-$(VERSION_MAJOR).$(VERSION_MINOR)/roms
 	mkdir dist/siemu-$(VERSION_MAJOR).$(VERSION_MINOR)/roms/invaders
