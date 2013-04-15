@@ -1,0 +1,50 @@
+1.03 - November 15, 2002
+	Marked all program related changes with a '*' in the Changelog for
+		easier reading.
+	Added a source for Peter [chrenko (at) profesia (dot) sk] in the
+		SOURCES file for noticing the error in my parity bit
+		calculation under the Patchers/Bug Reporters header.
+	Moved the Programming Sources header in 1 space to match other headers
+		in the SOURCES file.
+	Added a new header in SOURCES for Patchers/Bug Reporters.
+	Added parity macros to the John Atkins source in the SOURCES file.
+	Removed the capitalization of the letter 't' in timer under the
+		programming sources header for John Atkins in the SOURCES file.
+	* Modified 8080a.c to support the use of the new Parity(byte) macro.
+		Thanks to Peter [chrenko (at) profesia (dot) sk] for noticing
+		the error in my parity calculation and John Atkins (aka LIM)
+		for helping create some nice parity macros.
+	* Added a macro named Parity8(byte) to the 8080a header, 8080a.h to
+		correctly calculate a byte's parity.
+	Incremented version number of User's Guide doc/USERSGUIDE from 1.01 to
+		1.03.
+	Incremented version number in Makefile from 1.02 to 1.03.
+	Added a 1.02 -> 1.03 patch named 1.02-1.03 in the patch/ directory.
+
+1.02 - July 22, 2002
+	Reversed release ordering of doc/Changelog.  Latest date appears first.
+	Incremented version number of User's Guide doc/USERSGUIDE from 1.0 to
+		1.02.
+	* Patched audio subsystem src/audio.c for a clean compile in BeOS.
+		AUDIO_S8 is not supported on BeOS, use AUDIO_U8 instead. Thanks
+		to Caz [turok2 (at) currantbun (dot) com] for the patch.
+	Incremented version number in Makefile from 1.01 to 1.02.
+	Added a 1.01 -> 1.02 patch named 1.01-1.02 in the patch/ directory.
+
+1.01 - April 22, 2002
+	* Adding missing '\n' to the end of the "Unknown Input" message in
+		8080aio.c.
+	* Changed version string to "%s.%s" instead of "%d.%d" in main.c.  This
+		change allows multiple numbers in the version string.
+	* Changed VERSION_FLAGS to
+		-DVERSION_MAJOR=\"$(VERSION_MAJOR)\"
+		-DVERSION_MINOR=\"$(VERSION_MINOR)\" from
+		-DVERSION_MAJOR="$(VERSION_MAJOR)"
+		-DVERSION_MINOR="$(VERSION_MINOR)" in Makefile to account
+		for the new version numbering scheme.
+	Added a patch/ directory to the root directory.
+	Added the patch directory to the 'make dist' command in Makefile.
+	Added a 1.0 -> 1.01 patch named 1.0-1.01 in the patch/ directory.
+
+1.0  - April 20, 2002
+	Initial release

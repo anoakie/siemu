@@ -1,0 +1,1009 @@
+--- src/8080a.c	2002-04-19 04:43:17.000000000 -0700
++++ src/8080a.c	2002-11-15 00:06:22.000000000 -0700
+@@ -690,7 +690,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -731,7 +731,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -753,7 +753,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -775,7 +775,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -797,7 +797,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -819,7 +819,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -841,7 +841,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -863,7 +863,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -892,7 +892,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -929,7 +929,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -948,7 +948,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -967,7 +967,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -986,7 +986,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1003,7 +1003,7 @@
+ 				A += DE.reg.E;
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1022,7 +1022,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1041,7 +1041,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1066,7 +1066,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1091,7 +1091,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1126,7 +1126,7 @@
+ 				PSW = PSW&NCARRY&NAUX;
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1142,7 +1142,7 @@
+ 				PSW = PSW&NCARRY&NAUX;
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1158,7 +1158,7 @@
+ 				PSW = PSW&NCARRY&NAUX;
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1174,7 +1174,7 @@
+ 				PSW = PSW&NCARRY&NAUX;
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1190,7 +1190,7 @@
+ 				PSW = PSW&NCARRY&NAUX;
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1206,7 +1206,7 @@
+ 				PSW = PSW&NCARRY&NAUX;
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1222,7 +1222,7 @@
+ 				PSW = PSW&NCARRY&NAUX;
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1244,7 +1244,7 @@
+ 				PSW = PSW&NCARRY&NAUX;
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1266,7 +1266,7 @@
+ 				PSW = PSW&NCARRY&NAUX;
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1442,8 +1442,8 @@
+ 						   ? PSW|ZERO : PSW&NZERO;
+ 				PSW = (A-BC.reg.B)>>7
+ 						   ? PSW|SIGN : PSW&NSIGN;
+-				PSW = (A-BC.reg.B)%02
+-						   ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8((A-BC.reg.B))
++						   ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1460,8 +1460,8 @@
+ 						   ? PSW|ZERO : PSW&NZERO;
+ 				PSW = (A-BC.reg.C)>>7
+ 						   ? PSW|SIGN : PSW&NSIGN;
+-				PSW = (A-BC.reg.C)%02
+-						   ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8((A-BC.reg.C))
++						   ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1478,8 +1478,8 @@
+ 						   ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = (A-DE.reg.D)>>7
+ 						   ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = (A-DE.reg.D)%02
+-						   ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8((A-DE.reg.D))
++						   ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1496,8 +1496,8 @@
+ 						   ? PSW|ZERO : PSW&NZERO;
+ 				PSW = (A-DE.reg.E)>>7
+ 						   ? PSW|SIGN : PSW&NSIGN;
+-				PSW = (A-DE.reg.E)%02
+-						   ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8((A-DE.reg.E))
++						   ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1514,8 +1514,8 @@
+ 						   ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = (A-HL.reg.H)>>7
+ 						   ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = (A-HL.reg.H)%02
+-						   ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8((A-HL.reg.H))
++						   ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1532,8 +1532,8 @@
+ 						   ? PSW|ZERO : PSW&NZERO;
+ 				PSW = (A-HL.reg.L)>>7
+ 						   ? PSW|SIGN : PSW&NSIGN;
+-				PSW = (A-HL.reg.L)%02
+-						   ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8((A-HL.reg.L))
++						   ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1558,8 +1558,8 @@
+ 						? PSW|ZERO   : PSW&NZERO;
+ 				PSW = (A-ReadRAM(HL.pair))>>7
+ 						? PSW|SIGN   : PSW&NSIGN;
+-				PSW = (A-ReadRAM(HL.pair))%02
+-						? PSW&NPARITY: PSW|PARITY;
++				PSW = Parity8((A-ReadRAM(HL.pair)))
++						? PSW|PARITY: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1683,8 +1683,8 @@
+ 						? PSW|ZERO   : PSW&NZERO;
+ 				PSW = (A-ReadRAM(PC))>>7
+ 						? PSW|SIGN   : PSW&NSIGN;
+-				PSW = (A-ReadRAM(PC))%02
+-						? PSW&NPARITY: PSW|PARITY;
++				PSW = Parity8((A-ReadRAM(PC)))
++						? PSW|PARITY: PSW&NPARITY;
+ 				PC ++;
+ 				break;
+ 
+@@ -1779,7 +1779,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1884,7 +1884,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1901,7 +1901,8 @@
+ 
+ 				PSW = BC.reg.B==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = BC.reg.B>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = BC.reg.B%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(BC.reg.B) ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1918,7 +1919,8 @@
+ 
+ 				PSW = BC.reg.C==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = BC.reg.C>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = BC.reg.C%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(BC.reg.C) ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1935,7 +1937,8 @@
+ 
+ 				PSW = DE.reg.D==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = DE.reg.D>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = DE.reg.D%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(DE.reg.D) ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1952,7 +1955,8 @@
+ 
+ 				PSW = DE.reg.E==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = DE.reg.E>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = DE.reg.E%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(DE.reg.E) ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1969,7 +1973,8 @@
+ 
+ 				PSW = HL.reg.H==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = HL.reg.H>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = HL.reg.H%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(HL.reg.H) ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -1986,7 +1991,8 @@
+ 
+ 				PSW = HL.reg.L==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = HL.reg.L>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = HL.reg.L%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(HL.reg.L) ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -2011,8 +2017,8 @@
+ 							    PSW&NZERO;
+ 				PSW = ReadRAM(HL.pair)>>7 ? PSW|SIGN   :
+ 							    PSW&NSIGN;
+-				PSW = ReadRAM(HL.pair)%02 ? PSW&NPARITY:
+-							    PSW|PARITY;
++				PSW = Parity8(ReadRAM(HL.pair)) ? PSW|PARITY:
++							    PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -2177,7 +2183,7 @@
+ 				PSW = A&0xF ? PSW&NAUX   : PSW|AUX;
+ 				PSW = A==0  ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7  ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02  ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A)  ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -2191,9 +2197,10 @@
+ 				BC.reg.B ++;
+ 
+ 				PSW = BC.reg.B&0xF ? PSW&NAUX   : PSW|AUX;
+-				PSW = BC.reg.B==0  ? PSW|ZERO    : PSW&NZERO;
+-				PSW = BC.reg.B>>7  ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = BC.reg.B%02  ? PSW&NPARITY : PSW|PARITY;
++				PSW = BC.reg.B==0  ? PSW|ZERO   : PSW&NZERO;
++				PSW = BC.reg.B>>7  ? PSW|SIGN   : PSW&NSIGN;
++				PSW = Parity8(BC.reg.B)  ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -2207,9 +2214,10 @@
+ 				BC.reg.C ++;
+ 
+ 				PSW = BC.reg.C&0xF ? PSW&NAUX   : PSW|AUX;
+-				PSW = BC.reg.C==0  ? PSW|ZERO    : PSW&NZERO;
+-				PSW = BC.reg.C>>7  ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = BC.reg.C%02  ? PSW&NPARITY : PSW|PARITY;
++				PSW = BC.reg.C==0  ? PSW|ZERO   : PSW&NZERO;
++				PSW = BC.reg.C>>7  ? PSW|SIGN   : PSW&NSIGN;
++				PSW = Parity8(BC.reg.C)  ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -2223,9 +2231,10 @@
+ 				DE.reg.D ++;
+ 
+ 				PSW = DE.reg.D&0xF ? PSW&NAUX   : PSW|AUX;
+-				PSW = DE.reg.D==0  ? PSW|ZERO    : PSW&NZERO;
+-				PSW = DE.reg.D>>7  ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = DE.reg.D%02  ? PSW&NPARITY : PSW|PARITY;
++				PSW = DE.reg.D==0  ? PSW|ZERO   : PSW&NZERO;
++				PSW = DE.reg.D>>7  ? PSW|SIGN   : PSW&NSIGN;
++				PSW = Parity8(DE.reg.D)  ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -2238,10 +2247,11 @@
+ 			case INRE:
+ 				DE.reg.E ++;
+ 
+-				PSW = DE.reg.E&0xF ? PSW&NAUX    : PSW|AUX;
+-				PSW = DE.reg.E==0  ? PSW|ZERO    : PSW&NZERO;
+-				PSW = DE.reg.E>>7  ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = DE.reg.E%02  ? PSW&NPARITY : PSW|PARITY;
++				PSW = DE.reg.E&0xF ? PSW&NAUX   : PSW|AUX;
++				PSW = DE.reg.E==0  ? PSW|ZERO   : PSW&NZERO;
++				PSW = DE.reg.E>>7  ? PSW|SIGN   : PSW&NSIGN;
++				PSW = Parity8(DE.reg.E)  ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -2255,9 +2265,10 @@
+ 				HL.reg.H ++;
+ 
+ 				PSW = HL.reg.H&0xF ? PSW&NAUX   : PSW|AUX;
+-				PSW = HL.reg.H==0  ? PSW|ZERO    : PSW&NZERO;
+-				PSW = HL.reg.H>>7  ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = HL.reg.H%02  ? PSW&NPARITY : PSW|PARITY;
++				PSW = HL.reg.H==0  ? PSW|ZERO   : PSW&NZERO;
++				PSW = HL.reg.H>>7  ? PSW|SIGN   : PSW&NSIGN;
++				PSW = Parity8(HL.reg.H)  ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -2271,9 +2282,10 @@
+ 				HL.reg.L ++;
+ 
+ 				PSW = HL.reg.L&0xF ? PSW&NAUX   : PSW|AUX;
+-				PSW = HL.reg.L==0  ? PSW|ZERO    : PSW&NZERO;
+-				PSW = HL.reg.L>>7  ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = HL.reg.L%02  ? PSW&NPARITY : PSW|PARITY;
++				PSW = HL.reg.L==0  ? PSW|ZERO   : PSW&NZERO;
++				PSW = HL.reg.L>>7  ? PSW|SIGN   : PSW&NSIGN;
++				PSW = Parity8(HL.reg.L)  ? PSW|PARITY
++								: PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -2297,8 +2309,8 @@
+ 							     PSW&NZERO;
+ 				PSW = ReadRAM(HL.pair)>>7  ? PSW|SIGN :
+ 							     PSW&NSIGN;
+-				PSW = ReadRAM(HL.pair)%02
+-						? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(ReadRAM(HL.pair))
++						? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -3416,7 +3428,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -3431,7 +3443,7 @@
+ 				A = A | BC.reg.B;
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -3448,7 +3460,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -3465,7 +3477,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -3482,7 +3494,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -3499,7 +3511,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -3516,7 +3528,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -3539,7 +3551,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -3562,7 +3574,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4209,7 +4221,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4232,7 +4244,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4255,7 +4267,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4278,7 +4290,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4301,7 +4313,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4324,7 +4336,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4347,7 +4359,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4376,7 +4388,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4405,7 +4417,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4545,7 +4557,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4564,7 +4576,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4583,7 +4595,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4602,7 +4614,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4621,7 +4633,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4640,7 +4652,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4659,7 +4671,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4684,7 +4696,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4710,7 +4722,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4762,7 +4774,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4779,7 +4791,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4796,7 +4808,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4813,7 +4825,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4830,7 +4842,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4847,7 +4859,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4864,7 +4876,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4887,7 +4899,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+@@ -4910,7 +4922,7 @@
+ 
+ 				PSW = A==0 ? PSW|ZERO    : PSW&NZERO;
+ 				PSW = A>>7 ? PSW|SIGN    : PSW&NSIGN;
+-				PSW = A%02 ? PSW&NPARITY : PSW|PARITY;
++				PSW = Parity8(A) ? PSW|PARITY : PSW&NPARITY;
+ 				break;
+ 
+ 
+--- src/8080a.h	2002-04-19 04:41:24.000000000 -0700
++++ src/8080a.h	2002-11-15 00:12:06.000000000 -0700
+@@ -194,4 +194,37 @@
+ #define ReadRAM(offset) RAM[(offset)^(ENDIAN)]
+ 
+ 
++
++/*******************************************************************************
++* 8080a Inline Function:
++* ---------------------
++* 
++*    Parity8 - This function calculates the parity from the supplied 8-bits of
++*	data.
++*  
++* Input:
++* -----
++*
++*    byte - This is an 8-bit unsigned integer.  The content of this variable
++*	byte for which the parity will be found.
++*
++* Output:
++* ------
++*
++*    (return value) - This is an 8-bit unsigned integer that contains 1 (true)
++*	if the byte is parity and 0 (false) if the byte is non-parity.
++*
++*******************************************************************************/
++#define Parity8(byte) \
++	(!!((byte)&0x80)) ^ \
++	(!!((byte)&0x40)) ^ \
++	(!!((byte)&0x20)) ^ \
++	(!!((byte)&0x10)) ^ \
++	(!!((byte)&0x08)) ^ \
++	(!!((byte)&0x04)) ^ \
++	(!!((byte)&0x02)) ^ \
++	(!!((byte)&0x01))
++
++
++
+ #endif
+
+
+--- Makefile	2002-07-22 10:22:05.000000000 -0700
++++ Makefile	2002-11-14 10:36:09.000000000 -0700
+@@ -10,7 +10,7 @@
+ SHELL = /bin/sh
+ 
+ VERSION_MAJOR = 1
+-VERSION_MINOR = 02
++VERSION_MINOR = 03
+ 
+ SRCDIR = src
+ 
+--- doc/Changelog	2002-07-22 10:12:06.000000000 -0700
++++ doc/Changelog	2002-11-15 00:27:06.000000000 -0700
+@@ -1,19 +1,42 @@
++1.03 - November 15, 2002
++	Marked all program related changes with a '*' in the Changelog for
++		easier reading.
++	Added a source for Peter [chrenko (at) profesia (dot) sk] in the
++		SOURCES file for noticing the error in my parity bit
++		calculation under the Patchers/Bug Reporters header.
++	Moved the Programming Sources header in 1 space to match other headers
++		in the SOURCES file.
++	Added a new header in SOURCES for Patchers/Bug Reporters.
++	Added parity macros to the John Atkins source in the SOURCES file.
++	Removed the capitalization of the letter 't' in timer under the
++		programming sources header for John Atkins in the SOURCES file.
++	* Modified 8080a.c to support the use of the new Parity(byte) macro.
++		Thanks to Peter [chrenko (at) profesia (dot) sk] for noticing
++		the error in my parity calculation and John Atkins (aka LIM)
++		for helping create some nice parity macros.
++	* Added a macro named Parity8(byte) to the 8080a header, 8080a.h to
++		correctly calculate a byte's parity.
++	Incremented version number of User's Guide doc/USERSGUIDE from 1.01 to
++		1.03.
++	Incremented version number in Makefile from 1.02 to 1.03.
++	Added a 1.02 -> 1.03 patch named 1.02-1.03 in the patch/ directory.
++
+ 1.02 - July 22, 2002
+ 	Reversed release ordering of doc/Changelog.  Latest date appears first.
+ 	Incremented version number of User's Guide doc/USERSGUIDE from 1.0 to
+ 		1.02.
+-	Patched audio subsystem src/audio.c for a clean compile in BeOS.
++	* Patched audio subsystem src/audio.c for a clean compile in BeOS.
+ 		AUDIO_S8 is not supported on BeOS, use AUDIO_U8 instead. Thanks
+ 		to Caz [turok2 (at) currantbun (dot) com] for the patch.
+ 	Incremented version number in Makefile from 1.01 to 1.02.
+ 	Added a 1.01 -> 1.02 patch named 1.01-1.02 in the patch/ directory.
+ 
+ 1.01 - April 22, 2002
+-	Adding missing '\n' to the end of the "Unknown Input" message in
++	* Adding missing '\n' to the end of the "Unknown Input" message in
+ 		8080aio.c.
+-	Changed version string to "%s.%s" instead of "%d.%d" in main.c.  This
++	* Changed version string to "%s.%s" instead of "%d.%d" in main.c.  This
+ 		change allows multiple numbers in the version string.
+-	Changed VERSION_FLAGS to
++	* Changed VERSION_FLAGS to
+ 		-DVERSION_MAJOR=\"$(VERSION_MAJOR)\"
+ 		-DVERSION_MINOR=\"$(VERSION_MINOR)\" from
+ 		-DVERSION_MAJOR="$(VERSION_MAJOR)"
+
+
+--- doc/SOURCES	2002-03-26 21:01:46.000000000 -0700
++++ doc/SOURCES	2002-11-15 00:26:39.000000000 -0700
+@@ -2,10 +2,11 @@
+ --------
+ 
+ 
+- |Programming Sources|
+- ---------------------
++  |Programming Sources|
++  ---------------------
+ 
+-    Makefile reconstruction, Timer granularity, and kernel hertz modification:
++    Makefile reconstruction, timer granularity, kernel hertz modification,
++    and parity macros:
+ 	Jon Atkins, IRC.
+ 
+     Getting framerates without eating CPU time:
+@@ -18,6 +19,16 @@
+ 		http://sdldoc.csn.ul.ie/
+ 
+ 
++  | Patchers/Bug Reporters |
++  --------------------------
++
++    Parity miscalculation:
++	Peter [chrenko (at) profesia (dot) sk]
++
++    BeOS audio patch:
++	Caz [turok2 (at) currantbun (dot) com]
++
++
+   |8080a Documentation Sources|
+   -----------------------------
+ 
+@@ -36,7 +47,7 @@
+ 	Sean Young, PDF FILE
+ 		The Undocumented Z80 Documented
+ 		http://www.msxnet.org/tech/z80-documented.pdf
+-
++    
+ 
+   |Space Invaders Information Sources|
+   ------------------------------------
+
+
+--- doc/USERSGUIDE	2002-07-22 10:12:06.000000000 -0700
++++ doc/USERSGUIDE	2002-11-14 09:38:25.000000000 -0700
+@@ -1,4 +1,4 @@
+-8080A simulator (siemu) 1.02
++8080A simulator (siemu) 1.03
+ Copyright (C) 2002  Anoakie Ray Turner
+ 
+ This program is free software; you can redistribute it and/or

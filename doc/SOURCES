@@ -1,0 +1,70 @@
+Sources|
+--------
+
+
+  |Programming Sources|
+  ---------------------
+
+    Makefile reconstruction, timer granularity, kernel hertz modification,
+    and parity macros:
+	Jon Atkins, IRC.
+
+    Getting framerates without eating CPU time:
+	Mattias Engdegard, IRC.
+	Mattias Engdegard, WEB,
+		http://www.libsdl.org/pipermail/sdl/2002-January/041771.html
+
+    SDL Reference documentation:
+	Martin Donlon, WEB,
+		http://sdldoc.csn.ul.ie/
+
+
+  | Patchers/Bug Reporters |
+  --------------------------
+
+    Parity miscalculation:
+	Peter [chrenko (at) profesia (dot) sk]
+
+    BeOS audio patch:
+	Caz [turok2 (at) currantbun (dot) com]
+
+
+  |8080a Documentation Sources|
+  -----------------------------
+
+    Intel 8080a Documentation
+	Jonathan Bowen, TXT FILE, Tel +44-865-273840
+		8080A MICROPROCESSOR Instruction Set Summary
+		ftp://ftp.comlab.ox.ac.uk/pub/Cards/8080A.Z
+	Intel, PDF
+		Silicon Gate MOS 8080A
+		http://www.intel.com/
+
+    Intel z80 Documentation
+	Jonathan Bowen, TXT FILE, Tel +44-865-273840
+		Z80 MICROPROCESSOR Instruction Set Summary
+		ftp://ftp.comlab.ox.ac.uk/pub/Cards/Z80.Z
+	Sean Young, PDF FILE
+		The Undocumented Z80 Documented
+		http://www.msxnet.org/tech/z80-documented.pdf
+    
+
+  |Space Invaders Information Sources|
+  ------------------------------------
+
+    Space Invaders schematics and information
+	Midway Entertainment, SCHEMATICS.
+
+    Space Invaders memory mapping, inputs/outputs
+	Nemoto Yohei, TXT FILE, BYY03025@niftyserve.or.jp
+		AE.d.21.1, AE.d.21.2
+	Ignacio Escalza, TXT FILE, marconi@arrakis.es
+		AE.d.21.2
+
+    Space Invaders sound information
+	John Manfreda, TXT FILE, jmanfred@fh.us.bosch.com
+		AE.d.21.3
+
+    Space Invaders samples
+	Unknown author, WEB,
+		http://www.mame.net/samples/invaders.zip

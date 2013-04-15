@@ -1,0 +1,610 @@
+8080A simulator (siemu) 1.03
+Copyright (C) 2002  Anoakie Ray Turner
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
+USA.
+
+        Contact:  Anoakie Turner
+                  Anoakie.Turner@asu.edu
+
+                  13240 N. 94th Pl.
+                  Scottsdale, AZ 85260
+---------------------------------------------
+
+
+-=================-
+ Table of Contents
+-=================-
+	1.  General Information
+		1.1  Acknowledgements
+		1.2  What is this program?
+		1.3  Terminology
+
+	2.  Requirements
+		2.1  General requirements
+		2.2  Compilation requirements
+		2.3  Full binary requirements
+
+	3.  Quick start guide
+
+	4.  Getting the program
+		4.1  Obtaining the program
+		4.2  Obtaining ROMs
+
+	5.  Running the program
+		5.1  Compiling the program
+		5.2  Compilation arguments
+		5.3  Starting the simulator
+		    5.3.1  Setting up ROMs
+		    5.3.2  Running the executable.
+		5.4  Playing the game
+		    5.4.1  Dip switches
+		    5.4.2  Space Invaders specific keys
+		    5.4.3  Simulator specific keys
+
+	6.  Making modifications
+		6.1  Files included with the project
+		6.2  A quick breakdown of the source files
+		6.3  Modifying the source code
+		    6.3.1  Fixing 8080a instruction errors
+		    6.3.2  Adding 8080a instructions
+		    6.3.3  Supporting non-Space Invaders ROMs
+
+	7.  Troubleshooting
+		7.1  Bugs
+		7.2  "Help!  The program won't work!"
+		7.3  My invaders ROMs fail to load or run correctly.
+
+	8.  Compilation options
+	
+	9.  References
+
+
+
+
+1.  General Information
+
+	1.1  Acknowledgements
+	    Thanks to:
+		- D. Pheanis for sponsoring this project and various other
+		  correspondence.
+		- Midway for creating Space Invaders.
+		- Intel for creating the 8080a microprocessor.
+		- Jon Atkins for helping me reconstruct my Makefile, explaing
+		  timer granularity problems with Delays to me and telling me
+		  how to modify the Linux kernel to fix the timer problems.
+		- Mattias Engdegard for explaining how to achieve better timing
+		  without eating CPU time.
+		- Zack Vaughan for testing the PowerPC binaries.
+		- Martin Donlon for writing the SDLDoc documentation.
+		- Sam Lantingua for creating SDL.
+		- ASU's Writing Center for offering me assistance with my
+		  grammar.
+		- Perdue's OWL online
+		- The falstaf family for offering me moral support.
+		... See the SOURCES file for other acknowledgements.
+
+	1.2  What is this program?
+	    This program is an 8080a simulator.  It was written to run 8080a
+	    ROMs, preferably Space Invaders and its clones.
+
+	1.3  Terminology
+	    In this document, the terms 'simulator' and 'emulator' are used
+	    interchangably.  Both terms are defined as "a software
+	    simulation of the 8080a hardware."  The terms 'binary' and
+	    'executable' are also used interchangably in this program.  Both
+	    terms are defined as "the emulator compiled from the source code
+	    in an executable binary form." The terms 'high bit' and 'on bit'
+	    are used interchangably. In addition, The terms 'low bit' and 'off
+	    bit' are used interchangably.  "Toggling a switch" or "flipping a
+	    bit" changes it from a 'high bit' to a 'low bit' or a 'low bit' to
+	    a 'high bit'.  Win32 is the same as 32 bit Windows.  This include
+	    Windows 95 through Windows XP.
+
+
+
+2.  Requirements
+
+	2.1  General requirements
+		- A machine running either Windows 95 or higher or any UNIX
+		  clone with 16 megs of RAM.
+		- A Pentium II, PowerPC G3, PowerPC G3, or higher.
+		- A resolution of 640x480 or higher.
+		- An 8-bit sound card.
+		- SDL runtime 1.2 or higher, available at
+			http://www.libsdl.org/download-1.2.html.
+
+
+	2.2  Compilation requirements
+		- Media Library:  This program requires the SDL 1.2.x
+			Development Library, which can be found at
+			http://www.libsdl.org/download-1.2.html
+
+		- Compiler:  This program depends on an ANSI C compatible
+			compiler, such as GCC.  Although Microsoft Visual C
+			may compile the code, it is untested.
+
+		- Tools:  This program requires a copy of the GNU tools.  The
+			most important tool is GNU make.  If GNU make is not
+			available, hand compilation is required.
+
+		- Processor Class:  This program should be able to support any
+			type of processor.
+
+
+	2.3  Full binary requirements
+		- Media Library:  The binaries included with this program are
+			dependend on the SDL 1.2.3 Runtime Library which can be
+			found at http://www.libsdl.org/download-1.2.html.
+
+		- Processor Class:  The x86 binaries included with this program
+			are optimized for the i586 processor or higher.  The
+			x86 binaries were compiled to target a processing speed
+			of at least 233 Mhz.  Processors below 233 Mhz have not
+			been tested.  The PowerPC binaries should work on any G3
+			processor or higher.
+
+		- Operating System:  The binary named 'si.linux' requires a
+			system running Linux with libc6 2.2 or higher or a
+			Linux compatibility layer. The binary named 'si.exe'
+			requires a system running Windows 95 or higher. The
+			binary named 'si.osx' requires Mac OS X or higher.
+
+		- Memory:  All binaries of this program require at lest 16
+			megabytes of RAM.  In tests, this program only has a
+			2048k byte memory footprint.
+
+		- Sound:  All binaries of this program require at least an
+			8-bit sound card, or a sound emulation layer.
+
+
+
+3.  Quick start guide
+
+	1.  Download and install SDL runtime.
+		http://www.libsdl.org/download-1.2.html.
+	2.  Copy the Space Invaders ROMs to "roms/invaders/"
+	3a. If you are using Windows 95 or higher, double click on the file
+	    named si.exe.
+	3b. If you are using Linux, run ./si.linux
+	3c. If you are using Mac OS X, run ./si.osx
+	4.  Add coins by pressing the '3' button, and start the game by
+	    pressing the '1' button.
+	5.  Use the left and right arrows to move your ship, and the space bar
+	    to shoot.
+
+
+
+4.  Getting the program
+
+	4.1  Obtaining the program
+		Please visit http://www.darkpact.com/proj/ to get the latest
+		version of this program.
+
+		
+	4.2  Obtaining ROMs
+		If you do not own the original circuit board, it may be illegal
+		to own the ROM sets dumped from this board.  Please do not
+		contact me about ROM dumps, I will not send them to you.
+
+
+
+5.  Running the program
+
+	5.1  Compiling the program
+	    If the prebuilt binaries do not work for you, you may always
+	    compile your own binaries. Before compiling, make sure that all
+	    dependencies listed in section 4.2 are met.
+	
+	    When you are ready, there are 3 easy steps to compiling the
+	    binary:
+		
+		1. Edit the Makefile, and enable the preferred settings in the
+		   BEGIN CONFIG section that you would like to have enabled
+		   when you compile the binary.  This is not necessary if you
+		   want to build a binary with the default settings.
+		2. Type 'make' in the directory with the Makefile.
+		3. After this, the binary will either be called si.exe, if the
+		   win32 version was compiled, or si, if the non-win32 version
+		   was compiled.
+
+
+	5.2  Compilation arguments
+	    There are various arguments that may be used with the make command
+	    to quickly build other types of binaries without editing the
+	    Makefile.
+	    
+	    These are:
+
+		make debug - make a non-win32 debug binary
+		make release - make a non-win32 release binary
+		make win32 - make a win32 release binary
+		make clean - removes all binaries
+
+
+	5.3  Running the executable
+
+	    5.3.1  Setting up ROMs
+		ROMs should be 2048 bytes in size.
+		ROMs should be stored in the following format, where ROMNAME is
+		the name of the ROMSET the ROM belongs to:
+		   . Root directory
+		    \_ roms
+		       \_ ROMNAME
+			  \_
+			   |	The first ROM of the set.  This is loaded into
+			   |	ROM at 0x0000-0x0800
+		           |_ ROMNAME.h
+			   |
+			   |	The second ROM of the set.  This is loaded into
+			   |	ROM at 0x0800-0x1000
+		           |_ ROMNAME.g
+			   |
+			   |	The third ROM of the set.  This is loaded into
+			   |	ROM at 0x1000-0x1800
+		           |_ ROMNAME.f
+			   |
+			   |	The last ROM of the set.  This is loaded into
+			   |	ROM at 0x1800-0x2000
+		           |_ ROMNAME.e
+
+		Example with the invaders set:
+		   . Root directory
+		    \_ roms
+		       \_ invaders
+		          \__ invaders.h 
+		           |_ invaders.g
+		           |_ invaders.f
+		           |_ invaders.e
+
+
+	    5.3.2  Running the executable.
+		- In Windows, double click on si.exe.  All debugging
+		  information is written to stdout.txt and stderr.txt.
+		- In a non-Windows environment, type ./si after compiling the
+		  executable. All debugging information is written to STDOUT
+		  and STDERR.
+
+
+	5.4  Playing the game
+
+	    5.4.1  Dip switches
+		Dip switches are like the ROMs "options". Flipping a dip switch
+		immediately toggles the value of that switch. Once a dip switch
+		has been flipped, the simulator may need to be reset (which can
+		be done by pushing the 'r' key) for the changes to take effect.
+		Note that the key's name is in quotes and the actual key is in
+		parenthesis.
+
+		"Page Down" (PGDN) - flips the TILT swtich on and then off,
+			which tilts the machine.  The default value is off.
+		"Left Bracket" ([) - flips the high bit in the number of ships,
+			which adds one extra ship to the ships the player
+			starts with. The player gets zero extra ships if this
+			bit is not flipped.  The default value is off.
+		"Right Bracket" (]) - flips the low bit in the number of ships,
+			which adds two extra ship to the ships the player
+			starts with. The player gets zero extra ships if this
+			bit is not flipped. The default value is off.
+		"Back Slash" (\) - flips the bit on the number of points the
+			player needs to obtain to get a free ship.  If this bit
+			is high, the player need 1000 points to get a free
+			ship.  If the bit is low, the player need 1500 points
+			to get a free ship.
+
+
+	    5.4.2  Space Invaders specific keys
+		These keys are the actual keys that are used while playing the
+		game.  Note that the key's name is in quotes and the actual key
+		is in parenthesis.
+
+		"Left" (<-) - moves the player's ship to the left, while
+			ingame.
+		"Right" (->) - moves the player's ship to the right, while
+			ingame.
+		"Space" (' ') - shoots, while ingame.
+		"1" (1) - starts a one player game, if there is at least one
+			credit.
+		"2" (2) - starts a two player game, if there are at least two
+			credits.
+		"3" (3) - adds a coin, which in turn increases the number of
+			credits by one.
+
+
+	    5.4.3  Simulator specific keys
+		These keys control the simulator specific options. Note that the
+		key's name is in quotes and the actual key is in parenthesis.
+
+		"Escape" (ESC) - stops simulation and exits the program
+			immediately. This has the same effect as clicking the
+			close button.
+		"r" (r) - resets the processor. This is needed if any dip
+			switches have been flipped or if the player would like
+			to restart the game.
+		"f" (f) - toggles the simulator to fullscreen. This only applies
+			to the X11 and BeOS versions of the simulator.
+		"c" (c) - toggles color simulation.  This only works if either
+			the GREEN and/or COLOR tags were used when compiling.
+
+
+
+6.  Making modifications
+
+	6.1  Files included with the project
+	    Files in the root directory:
+		. Root directory
+		 \__ ICON	- This is the icon for the window.
+		  |_ Makefile	- This file aids in compilation of source.
+		  |_ si		- This is the default compiled binary. (may not
+		  |		  exist with the current distribution)
+		  |_ si.exe	- This is the WIN32 compiled binary.  (may not
+		  |		  exist with the current distribution)
+		  |
+		  |_ samp	- This is the sound samples directory.
+		  |  \__ 0.wav		- These files are various sound effects
+		  |   |_ 1.wav		  for Space Invaders.  They are
+		  |   |_ 2.wav		  documented in src/sound.c.
+		  |   |_ 3.wav
+		  |   |_ 4.wav
+		  |   |_ 5.wav
+		  |   |_ 6.wav
+		  |   |_ 7.wav
+		  |   |_ 8.wav
+		  |   |_ 9.wav
+		  |
+		  |_ roms	 - This is the 8080a ROM dump directory.
+		  |  \__ invaders	- This is the future home for Space
+		  |   |			  Invaders ROMs.  (see section 5.3.1).
+		  |   |_ invrvnge	- This is the future home for Invaders
+		  |   |			  Revenge ROMs.
+		  |   |_ spaceatt	- This is the future home for Space
+		  |   			  Attack ROMs.
+		  |
+		  |_ bin	 - This is the precompiled binary directory.
+		  |  \__ si.linux	- This is the precompiled Linux binary.
+		  |   |_ si.osx		- This is the precompiled Mac OSX
+		  |   |			  binary.
+		  |   |_ si_win.exe	- This is the precompiled Windows
+		  |			  binary.
+		  |
+		  |_ docs	 - This is the documentation directory.
+		  |  \__ Bench		- This is a benchmark of the graphics
+		  |   |			  engines.
+		  |   |_ Changelog	- This is a list of changes since
+		  |   |			  version 1.0.
+		  |   |_ LICESNSE	- This is information about this
+		  |   |			  project's license.
+		  |   |_ README		- This is a file that points the user
+		  |   |			  the user's guide.
+		  |   |_ SOURCES	- This is a list of sources that helped
+		  |   |			  in the creation of this simulator.
+		  |   |_ USERSGUIDE	- This file.
+		  |
+		  |_ src	 - This is the 8080a simulator source directory.
+		     \__ See below for file listings and descriptions for this
+		         directory.
+
+
+	6.2  A quick breakdown of the source files
+	    Files in the ./src/ directory:
+		8080a.c, 8080a.h -
+		  These files contain the main 8080a core named main8080a, the
+		ResetProc for resetting the simulated processor, and the LoadSet
+		function for loading ROM files from the disk.
+
+		8080aio.c, 8080aio.h -
+		  These files contain the 8080a's IO functions named input8080a
+		for the 8080a's input handling and output8080a for the 8080a's
+		output handling.
+
+		cleanup.c, cleanup.h - 
+		  These files contain a routine for cleanly exiting the program.
+		This routine is named CleanUp.
+
+		graphics.c, graphics.h -
+		  These files contain a routine for initializing SDL and the
+		graphics surface named InitGraphics as well as a routine for
+		blitting pixels to the screen named UpdateScreen.
+
+		sound.c, sound.h -
+		  These files contain a routine for initalizing the sound
+		system, named InitSound, and a routine for playing/queueing
+		a sound, named PlaySound.
+
+		input.c, input.h -
+		  These files contain a routine for reading input from the
+		keyboard.
+
+		opcodes.h, 8080avar.h -
+		  These files contain definitions for 8080a data structures and
+		timing (8080avar.h) as well as instruction sets with
+		cycle-per-instruction tables (opcodes.h)
+
+		main.c, main.h -
+		  These files contain the main function.
+
+		byteord.h -
+		  This file was taken from SDL.  It was originally named
+		  SDL_byteorder.h.
+
+
+	6.3  Modifying the source code
+	    6.3.1  Fixing 8080a instruction errors
+		If there is an error relating to the execution of 8080a
+		instructions, modifications can be made to the main8080a
+		function in the file 8080a.c.  All instructions are in
+		alphabetical order and are well documented.  If an error in the
+		code is found, please e-mail me at aturner (at) darkpact.com
+		with information on the bug and how to fix it.  If possible,
+		include a diff between the two files.  A diff between two files
+		is created by running the command diff -u file1 file2.
+
+
+	    6.3.2  Adding 8080a instructions
+	        Instructions can be added to the 8080a core by modifying the
+		main8080a function in the file 8080a.c.  To immediately add an
+		instruction, a hexadecimal code may be used as the 'case'. To
+		add a new instruction mnemonic to 8080a instruction set that
+		the 8080a core will recognise, modify opcodes.h and follow the
+		examples.  All instruction mnemonics are listed in alphabetical
+		order.  Once the mnemonic is added to the set, the number of
+		cycles the instruction takes must be added to the CYCLES array. 
+		This can be found at the bottom of the opcodes.h file.
+
+
+	    6.3.3  Supporting non-Space Invaders ROMs
+		Space Invaders specific code can be found in the following
+		files:  8080aio.c, graphics.c, input.c, and sound.c.
+
+		8080aio.c -
+		  This file contains Space Invaders specific input and output
+		logic.  With correct modification, input8080a and output8080a
+		can be used to simulate any set of inputs and outputs.
+		
+		graphics.c -
+		  This file contains the Space Invaders specific screen
+		resolution logic. This is located in the UpdateScreen function.
+		The actual graphics surface is created in the InitGraphics
+		function.  The maximum x and y resolutions are defined in
+		global.h. If graphics are not needed, this file can be
+		discarded, and the function call to UpdateScreen can be removed
+		from 8080a.c.
+		
+		sound.c -
+		  This file contains Space Invaders specific sound logic. The
+		PlaySound and SwitchSound functions do the processing to
+		determine what sound needs to be played next. With modification
+		of these functions, any sound system and logic may be added to
+		this program.  If sounds are not needed, this file can be
+		discarded and the function call to PlaySound can be removed from
+		8080aio.c
+
+		input.c -
+		  This file contains Space Invaders specific external device 
+		input logic. The ReadInputDevice function's variable retval,
+		which is ReadInputDevice's return value, can be modified to
+		support any keypresses with any bit flip.  Dip switch settings
+		are located in input.h.  If keyboard input is not needed, this
+		file can be discarded and the function call to ReadInputDevice
+		can be removed from 8080aio.c
+
+
+
+7.  Troubleshooting
+
+	7.1  Bugs
+	    - Repeating sounds
+	    	Make sure your processor is fast enough to play this game
+			(see section 2.1).
+
+	    	If you are playing at a frame rate lower then the optimal
+			frame rate, sounds may skip.  Note that this also
+			occurs if the frames per second, game speed, frame
+			skip, or hertz values are modified in the Makefile.
+			
+		Sounds may repeat because they are incorrectly handled by the
+			sound code.  If repeating sounds occur, please contact
+			me at aturner (at) darkpact.com
+
+
+	7.2  "Help!  The program won't work!"
+	    If you are having trouble compiling, make sure that your computer
+	    fits the specs in section 4.2.
+
+	    If you are having trouble running the executable or if the program
+	    runs too slow, make sure that your computer fits the specs in
+	    section 4.3.
+
+	    If you are getting "link" or "cannot find library" errors when you
+	    attempt to run the program, make sure that SDL is properly
+	    installed.  For troubleshooting help with SDL, please visit
+	    http://www.libsdl.org/
+
+	    If the simulator crashes or locks up, make sure that you have a
+	    valid and supported ROM set.  If you are sure that you have a valid
+	    and supported ROM set, please contact me at aturner (at)
+	    darkpact.com.
+
+	7.3  My invaders ROMs fail to load or run correctly.
+	    Make sure your ROMs have the following names, sizes, and CRCs:
+		invaders.h 2048 734f5ad8
+		invaders.g 2048 6bfaca4a
+		invaders.f 2048 0ccead96
+		invaders.e 2048 14e538b0
+
+
+8.  Compilation options
+
+    Please see the Makefile for more information about these options.
+
+	GREEN - Green coloring:  this option allows the painting of green color
+		overlays, or simulation of green monochrome monitors.  Enabling
+		this option increases the size of the compiled binary and may
+		decrease performance.
+
+	COLOR - "Correct" coloring: this option allows the painting of color
+		overlays.  Correct coloring enables simulated color depths
+		above 1-bit.  Enabling this option increases the size of the
+		compiled and will decrease performance.
+
+	TIMING - Sleep cycles (delays): this option can be enabled if the speed
+		of the target processor is known, and the target operating
+		system's delay time is known to be ten milliseconds or less.  A
+		delay allows the processor to go into a sleep mode while
+		syncing, which drops processor usage on a 300Mhz Pentium II
+		from 100% to around two percent.  Enabling this option
+		increases the size of the compiled binary and could possibly
+		cause the simulation to run inaccurately.
+
+	Z80 - Undocumented 8080a (Z80) instructions: this option supports seven
+		extra undocumented 8080a instructions.  Support for these extra
+		instructions may be needed by some ROM sets.  Enabling this
+		option increases the size of the compiled binary and could
+		possibly decrease performance.
+
+	SELFMOD - Self-modifying code: this option enables faster operation
+		while writing RAM because no bound checking is performed. 
+		Self-modifying code assumes that there is no ROM memory. 
+		Enabling this option decreases the size of the compiled binary
+		and offers a performance gain.
+
+	VERBOSE - Verbose messages: this option takes away precious processor
+		cycles if enabled because of printf I/O operations, but it
+		prints debug information while the program is running and will
+		print instruction information if the program encounters an
+		unknown OPCODE.  Enabling this option increases the size of the
+		compiled binary and decreases performance.
+
+	RELEASE - Pentium processor optimizations: this option increases the
+		size of the executable, but offers amazing performance
+		advantages over non-optimized binaries.  With delays enabled,
+		the simulation may use around thirty-three percent CPU time when
+		active, but after optimization, the simulator uses around two
+		percent CPU time. Enabling this option increases the size of the
+		compiled binary and increases performance.  This has the same
+		effect as running 'make release'.
+
+	DEBUG - Debug symbols are kept: this option creates a debug binary that
+		can be used with a debugger, such as gdb, to track down program
+		crashes.  This has the same effect as running 'make debug'.
+
+	FRAMESKIP, GAMESPEED, FPS, HERTZ - Timing variables: These options
+		modify the default timings that the simulator uses.  These
+		should not be modified by the user.  Modifying these variables
+		may cause the simulator to act unrealiably, or even crash.
+
+
+9.  References
+	See the SOURCES file included with this package.
